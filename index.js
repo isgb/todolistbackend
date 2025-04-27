@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express();
 
 const connection = require('./database/connection')
+connection()
 
 const port= 3970;
 
