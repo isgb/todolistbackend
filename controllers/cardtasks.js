@@ -93,6 +93,7 @@ const list = async (req, res) => {
         }
 
         const formattedCardsTasksList = cardsTasksList.map(card => ({
+            id: card._id,
             title: card.title,
             description: card.description,
             tasks: Array.isArray(card.tasks) ? card.tasks.map(task => ({
