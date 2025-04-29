@@ -81,8 +81,73 @@ const update = async (req,res) => {
     }
 }
 
+const list = async(req,res) => {
+    try {
+        const cardsTasksList = await CardTasks.find();
+
+        if(!cardsTasksList){
+            return res.status(404).send({
+                status: 500,
+                message: 'No hay cardtasks por obtener'
+            })   
+        }
+
+        return res.status(404).send({
+            status: 'success',
+            data: cardsTasksList
+        });
+
+    } catch (error) {
+        return res.status(500).send({
+            status: 500,
+            message: 'Error al obtener la lista de cardstasks'
+        })
+    }
+}
+
+const remove = async (req, res) => {
+
+    const cardTasksId = req.params.id
+
+    console.log(cardTasksId)
+
+    if (!cardTasksId) {
+        return res.status(404).send({
+            status: 'error',
+            message: 'La card no existe'
+        });
+    }
+
+    try {
+
+        const cardTasks = await CardTasks.findByIdAndDelete(cardTasksId)
+        
+        if(!cardTasks){
+            return res.status(200).send({
+                status: 'error',
+                message: 'Error al eliminar la card'
+            });
+        }
+
+        return res.status(200).send({
+            status: 'success',
+            message: 'La card ha sido eliminada'
+        });
+
+    } catch (error) {
+        return res.status(500).send({
+            status: 'error',
+            error,
+            message: 'Error al eliminar la card'
+        });
+    }
+
+}
+
 module.exports = {
   prueba,
   save,
-  update
+  update,
+  list,
+  remove
 };
