@@ -1,4 +1,5 @@
 const CardTasks = require("../models/cardtask");
+const Task = require('../models/task')
 
 const prueba = async (req, res) => {
     return res.status(200).send({
@@ -92,16 +93,15 @@ const list = async (req, res) => {
             })
         }
 
-        const formattedCardsTasksList = cardsTasksList.map(card => ({
-            id: card._id,
-            title: card.title,
-            description: card.description,
-            tasks: Array.isArray(card.tasks) ? card.tasks.map(task => ({
-                description: task.description,
-                isCompleted: task.isCompleted
-            })) : []
-        }));
-
+        const formattedCardsTasksList = await Promise.all(
+            cardsTasksList.map(async (card) => ({
+                id: card._id,
+                title: card.title,
+                description: card.description,
+                tasks: await Task.find({ cardTasksId: card._id }) || []
+            }))
+        );
+        
         return res.status(200).send({
             status: 200,
             cardsTasks: formattedCardsTasksList
