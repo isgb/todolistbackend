@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors')
 const app = express();
+require('dotenv').config();
 
 const connection = require('./database/connection')
 connection()
 
-const port= 3970;
+const port = process.env.PORT || 3000; // Vercel asigna el puerto mediante process.env.PORT
 
 // Habilitando cabeceras de envo
 app.use(cors())
