@@ -4,7 +4,9 @@ const app = express();
 require('dotenv').config();
 
 const connection = require('./database/connection')
-connection()
+connection().catch((error) => {
+    console.error(error.message)
+})
 
 const port = process.env.PORT || 3000; // Vercel asigna el puerto mediante process.env.PORT
 

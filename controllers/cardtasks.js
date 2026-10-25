@@ -140,6 +140,8 @@ const remove = async (req, res) => {
             });
         }
 
+        await Task.deleteMany({ cardTasksId: cardTasksId })
+
         return res.status(200).send({
             status: 'success',
             message: 'La card ha sido eliminada'
